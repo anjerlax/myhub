@@ -653,12 +653,12 @@ function readP(p) {
   }
 }
 const parseNote  = pg => ({ id:pg.id, title:readP(pg.properties.Title), body:readP(pg.properties.Body), type:readP(pg.properties.Type)||'note', date:readP(pg.properties.Date) });
-const parseBook  = pg => ({ id:pg.id, title:readP(pg.properties.Title), author:readP(pg.properties.Author), status:readP(pg.properties.Status)||'want', rating:readP(pg.properties.Rating), notes:readP(pg.properties.Notes) });
+const parseBook  = pg => ({ id:pg.id, title:readP(pg.properties.Title), author:readP(pg.properties.Author), status:readP(pg.properties.Status)||'want', rating:readP(pg.properties.Rating), notes:readP(pg.properties.Notes), cover:readP(pg.properties.Cover) });
 const parseMovie = pg => ({ id:pg.id, title:readP(pg.properties.Title), genre:readP(pg.properties.Genre), status:readP(pg.properties.Status)||'want', rating:readP(pg.properties.Rating), notes:readP(pg.properties.Notes), poster:readP(pg.properties.Poster), tmdbId:readP(pg.properties.TMDB_ID) });
 const parseTodo  = pg => ({ id:pg.id, title:readP(pg.properties.Title), category:readP(pg.properties.Category), priority:readP(pg.properties.Priority)||'med', done:readP(pg.properties.Done) });
 
 const noteProps  = f => ({ Title:P.title(f.title), Body:P.text(f.body),   Type:P.sel(f.type),   Date:P.text(f.date) });
-const bookProps  = f => ({ Title:P.title(f.title), Author:P.text(f.author), Status:P.sel(f.status), Rating:P.num(f.rating), Notes:P.text(f.notes) });
+const bookProps  = f => ({ Title:P.title(f.title), Author:P.text(f.author), Status:P.sel(f.status), Rating:P.num(f.rating), Notes:P.text(f.notes), Cover:P.url(f.cover) });
 const movieProps = f => ({ Title:P.title(f.title), Genre:P.text(f.genre),  Status:P.sel(f.status), Rating:P.num(f.rating), Notes:P.text(f.notes), Poster:P.url(f.poster), TMDB_ID:P.text(f.tmdbId) });
 const todoProps  = f => ({ Title:P.title(f.title), Category:P.text(f.category), Priority:P.sel(f.priority), Done:P.check(f.done) });
 
@@ -730,9 +730,53 @@ function selectTmdb(i) {
   hideSug();
 }
 
+// ── OPEN LIBRARY (book covers) ───────────────────────────────────────────────
+const OL_COVER = 'https://covers.openlibrary.org/b/isbn/';
+const OL_COVER_ID = 'https://covers.openlibrary.org/b/id/';
+let olResults = [], selectedOl = null, olTimer;
+
+async function searchOL(q) {
+  if(!q||q.length<2){hideOlSug();return;}
+  clearTimeout(olTimer);
+  olTimer=setTimeout(async()=>{
+    try {
+      const r=await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(q)}&fields=key,title,author_name,cover_i,first_publish_year&limit=5`);
+      const data=await r.json();
+      olResults=(data.docs||[]).slice(0,5);
+      showOlSug();
+    } catch(e){hideOlSug();}
+  },380);
+}
+function showOlSug() {
+  const b=document.getElementById('ol-sug');
+  if(!b||!olResults.length){hideOlSug();return;}
+  b.style.display='block';
+  b.innerHTML=olResults.map((bk,i)=>{
+    const thumb = bk.cover_i ? `${OL_COVER_ID}${bk.cover_i}-S.jpg` : null;
+    return `<div class="tmdb-suggestion" onclick="selectOl(${i})">
+      ${thumb?`<img class="tmdb-thumb" src="${thumb}" alt="">`:
+        `<div class="tmdb-thumb-ph">📖</div>`}
+      <div><div class="tmdb-name">${bk.title||''}</div>
+      <div class="tmdb-year">${(bk.author_name||[]).slice(0,1).join('')}${bk.first_publish_year?' · '+bk.first_publish_year:''}</div></div>
+    </div>`;
+  }).join('');
+}
+function hideOlSug(){const b=document.getElementById('ol-sug');if(b)b.style.display='none';}
+function selectOl(i) {
+  selectedOl=olResults[i];
+  document.getElementById('f-title').value=selectedOl.title||'';
+  if(selectedOl.author_name) document.getElementById('f-author').value=selectedOl.author_name[0]||'';
+  const prev=document.getElementById('book-cover-preview');
+  if(prev&&selectedOl.cover_i){
+    prev.src=`${OL_COVER_ID}${selectedOl.cover_i}-M.jpg`;
+    prev.style.display='block';
+  }
+  hideOlSug();
+}
+
 // ── MODAL ─────────────────────────────────────────────────────────────────────
 function openModal(type,id) {
-  currentType=type; editId=id||null; selectedTmdb=null; tmdbResults=[];
+  currentType=type; editId=id||null; selectedTmdb=null; tmdbResults=[]; selectedOl=null; olResults=[];
   document.getElementById('modal-box').innerHTML=buildForm(type,id);
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -761,7 +805,11 @@ function buildForm(type,id) {
   if(type==='book') {
     const it=id?state.books.find(n=>n.id===id)||{}:{};
     return `<h2>${id?'Edit Book':'Add Book'}</h2>
-      <div class="form-group"><label>Title</label><input id="f-title" value="${esc(it.title)}" placeholder="Book title…"></div>
+      <div class="form-group"><label>Search Book Title</label>
+        <input id="f-title" value="${esc(it.title)}" placeholder="Start typing to search…" oninput="searchOL(this.value)" autocomplete="off">
+        <div id="ol-sug" class="tmdb-suggestions"></div>
+      </div>
+      <img id="book-cover-preview" src="${esc(it.cover||'')}" style="width:72px;border-radius:var(--radius-xs);margin-bottom:0.8rem;${it.cover?'display:block':'display:none'}">
       <div class="form-group"><label>Author</label><input id="f-author" value="${esc(it.author)}" placeholder="Author name…"></div>
       <div class="form-group"><label>Status</label><select id="f-status">
         <option value="want" ${it.status==='want'?'selected':''}>Want to Read</option>
@@ -818,8 +866,11 @@ async function saveNote() {
 async function saveBook() {
   const f={title:document.getElementById('f-title').value.trim(), author:document.getElementById('f-author').value.trim(),
     status:document.getElementById('f-status').value, rating:parseInt(document.getElementById('f-rating').value)||0,
-    notes:document.getElementById('f-notes').value.trim()};
-  if(!f.title)return; setBusy(true);
+    notes:document.getElementById('f-notes').value.trim(), cover:''};
+  if(!f.title)return;
+  if(selectedOl?.cover_i){ f.cover=`${OL_COVER_ID}${selectedOl.cover_i}-L.jpg`; }
+  else if(editId){ const ex=state.books.find(b=>b.id===editId); if(ex) f.cover=ex.cover||''; }
+  setBusy(true);
   try { if(editId)await nUpdate(editId,bookProps(f)); else await nCreate(DB.books,bookProps(f)); closeModal(); await loadTab('books'); }
   catch(e){setBusy(false);alert('Save failed: '+e.message);}
 }
@@ -892,12 +943,14 @@ function renderBooks() {
         <button onclick="openModal('book','${b.id}')">✏</button>
         <button onclick="deleteEntry('books','${b.id}')">✕</button>
       </div>
-      <span class="item-icon">📖</span>
-      <div class="item-title">${esc(b.title)}</div>
-      <div class="item-sub">${esc(b.author)}</div>
-      ${starsHTML(b.rating)}
-      <span class="status-pill status-${b.status}">${lbl[b.status]||b.status}</span>
-      ${b.notes?`<div class="item-sub" style="margin-top:0.5rem;font-style:italic;">${esc(b.notes)}</div>`:''}
+      ${b.cover?`<img class="book-cover" src="${b.cover}" alt="${esc(b.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'' }
+      <div class="book-cover-placeholder" ${b.cover?'style="display:none"':''}>📖</div>
+      <div class="book-info">
+        <div class="item-title">${esc(b.title)}</div>
+        <div class="item-sub">${esc(b.author)}</div>
+        ${starsHTML(b.rating)}
+        <span class="status-pill status-${b.status}">${lbl[b.status]||b.status}</span>
+      </div>
     </div>`).join('');
 }
 
