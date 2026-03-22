@@ -3,163 +3,513 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Space</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<title>My Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 :root {
-  --cream: #FAF6F0; --parchment: #F2EBE0; --warm-brown: #8B6347;
-  --deep-brown: #5C3D2E; --rust: #C4714A; --sage: #7A8C6E;
-  --muted-gold: #C9A84C; --text-dark: #3B2A1E; --text-mid: #6B4F3A;
-  --text-light: #9B7B62; --border: rgba(139,99,71,0.18);
-  --card-bg: #FFFDF9; --shadow: 0 2px 16px rgba(92,61,46,0.08);
+  --bg:        #F4F4F2;
+  --surface:   #FFFFFF;
+  --surface2:  #EFEEEC;
+  --border:    #E2E1DE;
+  --border2:   #D0CFCC;
+  --text:      #18181A;
+  --text-mid:  #5A5A5E;
+  --text-soft: #9A9A9E;
+  --accent:    #18181A;
+  --accent-fg: #FFFFFF;
+  --blue:      #3B6FE8;
+  --green:     #2D8A5E;
+  --amber:     #C17B2A;
+  --red:       #C0392B;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow:    0 4px 16px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+  --radius:    12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
 }
-body { font-family:'Nunito',sans-serif; background-color:var(--cream); color:var(--text-dark); min-height:100vh;
-  background-image:radial-gradient(ellipse at 20% 10%,rgba(201,168,76,0.08) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 80%,rgba(196,113,74,0.07) 0%,transparent 50%); }
-header { background:var(--deep-brown); color:#FAF6F0; padding:1.5rem 2rem; display:flex; align-items:center;
-  justify-content:space-between; box-shadow:0 2px 12px rgba(92,61,46,0.18); }
-header h1 { font-family:'Lora',serif; font-size:1.6rem; font-weight:600; letter-spacing:0.02em; }
-header span { font-size:0.85rem; opacity:0.65; }
-nav { background:var(--parchment); border-bottom:1px solid var(--border); display:flex; overflow-x:auto;
-  box-shadow:0 1px 4px rgba(92,61,46,0.06); }
-nav button { background:none; border:none; padding:0.85rem 1.5rem; font-family:'Nunito',sans-serif;
-  font-size:0.9rem; font-weight:600; color:var(--text-mid); cursor:pointer;
-  border-bottom:3px solid transparent; transition:all 0.2s; white-space:nowrap; display:flex; align-items:center; gap:6px; }
-nav button:hover { color:var(--rust); background:rgba(196,113,74,0.06); }
-nav button.active { color:var(--rust); border-bottom-color:var(--rust); background:rgba(196,113,74,0.07); }
-.container { max-width:960px; margin:0 auto; padding:2rem 1.25rem; }
-.section { display:none; } .section.active { display:block; }
-.section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; flex-wrap:wrap; gap:0.75rem; }
-.section-title { font-family:'Lora',serif; font-size:1.4rem; font-weight:600; color:var(--deep-brown); }
-.header-right { display:flex; align-items:center; gap:0.8rem; }
-.btn-add { background:var(--rust); color:white; border:none; padding:0.5rem 1.1rem; border-radius:20px;
-  font-family:'Nunito',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer;
-  transition:background 0.2s,transform 0.1s; display:flex; align-items:center; gap:5px; }
-.btn-add:hover { background:var(--deep-brown); transform:translateY(-1px); }
-.sync-badge { display:inline-flex; align-items:center; gap:5px; font-size:0.72rem; color:var(--text-light);
-  background:var(--parchment); border:1px solid var(--border); padding:0.2rem 0.7rem; border-radius:10px; }
-.sync-dot { width:7px; height:7px; border-radius:50%; background:var(--sage); flex-shrink:0; }
-.sync-dot.syncing { background:var(--muted-gold); animation:pulse 1s infinite; }
-.sync-dot.error { background:var(--rust); }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* ── HEADER ───────────────────────────────────────────────────── */
+header {
+  background: var(--text);
+  color: #fff;
+  padding: 0 2.5rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  letter-spacing: 0;
+}
+.logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.01em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logo-dot {
+  width: 6px; height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+#header-date {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── NAV ──────────────────────────────────────────────────────── */
+nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  padding: 0 2.5rem;
+  gap: 0;
+}
+nav button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 0 0;
+  margin-right: 2rem;
+  height: 48px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+nav button:hover { color: var(--text); }
+nav button.active { color: var(--text); border-bottom-color: var(--text); }
+nav button .nav-icon { font-size: 0.9rem; }
+
+/* ── LAYOUT ───────────────────────────────────────────────────── */
+.container { max-width: 1040px; margin: 0 auto; padding: 2.5rem 2rem; }
+.section { display: none; animation: fadeUp 0.25s ease both; }
+.section.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── SECTION HEADER ───────────────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--text-mid);
+}
+.header-right { display: flex; align-items: center; gap: 0.75rem; }
+
+/* ── SYNC BADGE ───────────────────────────────────────────────── */
+.sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 99px;
+}
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+.sync-dot.syncing { background: var(--amber); animation: pulse 1s infinite; }
+.sync-dot.error { background: var(--red); }
 @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-.card-actions { position:absolute; top:0.7rem; right:0.8rem; display:flex; gap:4px; opacity:0; transition:opacity 0.2s; }
-.note-card:hover .card-actions,.list-item:hover .card-actions,.todo-item:hover .card-actions,.movie-card:hover .card-actions { opacity:1; }
-.card-actions button { background:var(--card-bg); border:1px solid var(--border); border-radius:6px; width:26px; height:26px;
-  cursor:pointer; font-size:0.75rem; display:flex; align-items:center; justify-content:center; color:var(--text-light); transition:all 0.15s; }
-.card-actions button:hover { background:#FDE8E0; color:var(--rust); border-color:var(--rust); }
-.notes-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; }
-.note-card { background:var(--card-bg); border:1px solid var(--border); border-radius:12px;
-  padding:1.1rem 1.2rem; box-shadow:var(--shadow); position:relative; transition:transform 0.15s; }
-.note-card:hover { transform:translateY(-2px); }
-.note-date { font-size:0.72rem; color:var(--text-light); margin-bottom:0.4rem; font-style:italic; }
-.note-title { font-family:'Lora',serif; font-size:1rem; font-weight:600; color:var(--deep-brown); margin-bottom:0.4rem; }
-.note-body { font-size:0.87rem; color:var(--text-mid); line-height:1.6; white-space:pre-wrap; }
-.tag { display:inline-block; margin-top:0.6rem; padding:2px 9px; border-radius:10px; font-size:0.72rem; font-weight:600; }
-.tag-note{background:#EEF3E8;color:#4A6B35}.tag-reflection{background:#F3EAE0;color:#8B5A30}.tag-idea{background:#EDE8F6;color:#5A3F8B}
-.list-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
-.list-item { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; padding:1rem;
-  box-shadow:var(--shadow); position:relative; transition:transform 0.15s; }
-.list-item:hover { transform:translateY(-2px); }
-.item-emoji { font-size:2rem; margin-bottom:0.5rem; display:block; }
-.item-title { font-family:'Lora',serif; font-size:0.95rem; font-weight:600; color:var(--deep-brown); margin-bottom:0.2rem; line-height:1.3; }
-.item-sub { font-size:0.78rem; color:var(--text-light); margin-bottom:0.4rem; }
-.stars { color:var(--muted-gold); font-size:0.85rem; letter-spacing:1px; }
-.status-badge { display:inline-block; padding:2px 8px; border-radius:8px; font-size:0.7rem; font-weight:600; margin-top:0.4rem; }
-.status-reading,.status-watching{background:#FFF3E0;color:#B06000}
-.status-done{background:#E8F5E9;color:#2E7D32}
-.status-want{background:#E8EAF6;color:#3949AB}
-.movies-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:1.2rem; }
-.movie-card { background:var(--card-bg); border:1px solid var(--border); border-radius:14px;
-  box-shadow:var(--shadow); position:relative; transition:transform 0.2s,box-shadow 0.2s; overflow:hidden; }
-.movie-card:hover { transform:translateY(-4px); box-shadow:0 8px 32px rgba(92,61,46,0.16); }
-.movie-poster { width:100%; aspect-ratio:2/3; object-fit:cover; display:block; }
-.movie-poster-placeholder { width:100%; aspect-ratio:2/3; display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg,#F2EBE0,#E8DDD4); font-size:3rem; }
-.movie-info { padding:0.7rem 0.8rem 0.8rem; }
-.movie-title { font-family:'Lora',serif; font-size:0.88rem; font-weight:600; color:var(--deep-brown);
-  line-height:1.3; margin-bottom:0.25rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.movie-genre { font-size:0.72rem; color:var(--text-light); margin-bottom:0.3rem; }
-.movie-card .card-actions { top:0.5rem; right:0.5rem; }
-.movie-card .card-actions button { background:rgba(255,253,249,0.92); backdrop-filter:blur(4px); }
-.todo-list { display:flex; flex-direction:column; gap:0.6rem; }
-.todo-item { background:var(--card-bg); border:1px solid var(--border); border-radius:10px;
-  padding:0.85rem 1.1rem; display:flex; align-items:center; gap:0.8rem;
-  box-shadow:var(--shadow); position:relative; transition:transform 0.15s; }
-.todo-item:hover { transform:translateX(3px); }
-.todo-item input[type="checkbox"] { width:18px; height:18px; accent-color:var(--sage); cursor:pointer; flex-shrink:0; }
-.todo-text { flex:1; font-size:0.92rem; color:var(--text-dark); line-height:1.4; }
-.todo-item.done .todo-text { text-decoration:line-through; color:var(--text-light); }
-.todo-priority { font-size:0.7rem; font-weight:600; padding:2px 7px; border-radius:8px; flex-shrink:0; }
-.priority-high{background:#FDE8E0;color:#C0392B}.priority-med{background:#FFF8E1;color:#B07800}.priority-low{background:#E8F5E9;color:#2E7D32}
-.todo-category { font-size:0.7rem; color:var(--text-light); font-style:italic; }
-.stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:0.8rem; margin-bottom:1.5rem; }
-.stat-card { background:var(--parchment); border-radius:10px; padding:0.8rem 1rem; text-align:center; border:1px solid var(--border); }
-.stat-num { font-family:'Lora',serif; font-size:1.5rem; font-weight:600; color:var(--rust); display:block; }
-.stat-label { font-size:0.72rem; color:var(--text-light); font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
-.filter-row { display:flex; gap:0.5rem; margin-bottom:1.2rem; flex-wrap:wrap; }
-.filter-btn { background:var(--parchment); border:1px solid var(--border); border-radius:14px; padding:0.3rem 0.9rem;
-  font-size:0.78rem; font-weight:600; color:var(--text-mid); cursor:pointer; transition:all 0.15s; }
-.filter-btn:hover,.filter-btn.active { background:var(--rust); color:white; border-color:var(--rust); }
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(60,35,20,0.45); z-index:100;
-  align-items:center; justify-content:center; padding:1rem; }
-.modal-overlay.open { display:flex; }
-.modal { background:var(--cream); border-radius:16px; padding:1.75rem; width:100%; max-width:480px;
-  box-shadow:0 8px 40px rgba(92,61,46,0.22); animation:modalIn 0.2s ease; max-height:90vh; overflow-y:auto; }
-@keyframes modalIn { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
-.modal h2 { font-family:'Lora',serif; font-size:1.2rem; font-weight:600; color:var(--deep-brown); margin-bottom:1.2rem; }
-.form-group { margin-bottom:1rem; }
-.form-group label { display:block; font-size:0.82rem; font-weight:600; color:var(--text-mid); margin-bottom:0.3rem; }
-.form-group input,.form-group textarea,.form-group select {
-  width:100%; border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.8rem;
-  font-family:'Nunito',sans-serif; font-size:0.9rem; background:var(--card-bg); color:var(--text-dark); outline:none; transition:border-color 0.2s; }
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus { border-color:var(--warm-brown); }
-.form-group textarea { resize:vertical; min-height:90px; line-height:1.5; }
-.modal-actions { display:flex; gap:0.7rem; justify-content:flex-end; margin-top:1.3rem; }
-.btn-cancel { background:none; border:1px solid var(--border); color:var(--text-mid); padding:0.5rem 1.1rem;
-  border-radius:20px; font-family:'Nunito',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; }
-.btn-cancel:hover { background:var(--parchment); }
-.btn-save { background:var(--deep-brown); color:white; border:none; padding:0.5rem 1.3rem; border-radius:20px;
-  font-family:'Nunito',sans-serif; font-size:0.85rem; font-weight:600; cursor:pointer; transition:background 0.15s; }
-.btn-save:hover { background:var(--rust); }
-.btn-save:disabled { opacity:0.55; cursor:not-allowed; }
-.empty-state { text-align:center; padding:3rem 1rem; color:var(--text-light); font-family:'Lora',serif; font-style:italic; grid-column:1/-1; }
-.empty-state span { font-size:2rem; display:block; margin-bottom:0.6rem; opacity:0.5; }
-.loading-state { text-align:center; padding:3rem 1rem; color:var(--text-light); font-style:italic; grid-column:1/-1; }
-.tmdb-suggestions { border:1px solid var(--border); border-radius:8px; background:var(--card-bg);
-  margin-top:0.3rem; max-height:200px; overflow-y:auto; display:none; box-shadow:var(--shadow); }
-.tmdb-suggestion { display:flex; align-items:center; gap:0.75rem; padding:0.6rem 0.8rem;
-  cursor:pointer; border-bottom:1px solid var(--border); transition:background 0.15s; }
-.tmdb-suggestion:last-child { border-bottom:none; }
-.tmdb-suggestion:hover { background:var(--parchment); }
-.tmdb-thumb { width:36px; height:54px; object-fit:cover; border-radius:4px; flex-shrink:0; }
-.tmdb-thumb-ph { width:36px; height:54px; background:#E8DDD4; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
-.tmdb-t { font-size:0.85rem; font-weight:600; color:var(--deep-brown); }
-.tmdb-y { font-size:0.75rem; color:var(--text-light); }
+
+/* ── BUTTON ───────────────────────────────────────────────────── */
+.btn-add {
+  background: var(--text);
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: 99px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.btn-add:hover { opacity: 0.8; transform: translateY(-1px); }
+
+/* ── FILTERS ──────────────────────────────────────────────────── */
+.filter-row { display: flex; gap: 0.4rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.filter-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 99px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.filter-btn:hover { border-color: var(--text); color: var(--text); }
+.filter-btn.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+/* ── NOTES GRID ───────────────────────────────────────────────── */
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.note-card {
+  background: var(--surface);
+  padding: 1.4rem 1.5rem;
+  position: relative;
+  transition: background 0.15s;
+  cursor: default;
+}
+.note-card:hover { background: #FAFAFA; }
+.note-date { font-size: 0.68rem; font-weight: 500; color: var(--text-soft); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.55rem; }
+.note-title { font-family: 'DM Serif Display', serif; font-size: 1.05rem; color: var(--text); margin-bottom: 0.5rem; line-height: 1.3; }
+.note-body { font-size: 0.84rem; color: var(--text-mid); line-height: 1.65; white-space: pre-wrap; }
+.note-tag {
+  display: inline-block;
+  margin-top: 0.9rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.tag-note { background: #EEF2FF; color: #3B5BDB; }
+.tag-reflection { background: #F0FDF4; color: #166534; }
+.tag-idea { background: #FFF7ED; color: #9A3412; }
+
+/* ── CARD ACTIONS ─────────────────────────────────────────────── */
+.card-actions {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  display: flex;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.note-card:hover .card-actions,
+.list-item:hover .card-actions,
+.todo-item:hover .card-actions,
+.movie-card:hover .card-actions { opacity: 1; }
+.card-actions button {
+  width: 26px; height: 26px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+  transition: all 0.15s;
+}
+.card-actions button:hover { background: var(--text); color: #fff; border-color: var(--text); }
+
+/* ── BOOKS GRID ───────────────────────────────────────────────── */
+.list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 1rem; }
+.list-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.list-item:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+.item-icon { font-size: 1.6rem; margin-bottom: 0.75rem; display: block; }
+.item-title { font-family: 'DM Serif Display', serif; font-size: 0.98rem; color: var(--text); margin-bottom: 0.25rem; line-height: 1.3; }
+.item-sub { font-size: 0.76rem; color: var(--text-soft); margin-bottom: 0.5rem; }
+.stars { color: var(--text); font-size: 0.78rem; letter-spacing: 2px; margin-bottom: 0.3rem; }
+.status-pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 99px;
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+.status-want { background: #EEF2FF; color: #3B5BDB; }
+.status-reading, .status-watching { background: #FFF7ED; color: #9A3412; }
+.status-done { background: #F0FDF4; color: #166534; }
+
+/* ── MOVIES GRID ──────────────────────────────────────────────── */
+.movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 1.25rem; }
+.movie-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+.movie-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+.movie-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; background: var(--surface2); }
+.movie-poster-placeholder {
+  width: 100%; aspect-ratio: 2/3;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface2);
+  font-size: 2.5rem;
+  color: var(--border2);
+}
+.movie-info { padding: 0.85rem 0.9rem 1rem; }
+.movie-title { font-family: 'DM Serif Display', serif; font-size: 0.88rem; color: var(--text); line-height: 1.3; margin-bottom: 0.2rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.movie-genre { font-size: 0.7rem; color: var(--text-soft); margin-bottom: 0.4rem; }
+.movie-card .card-actions { top: 0.5rem; right: 0.5rem; }
+.movie-card .card-actions button { background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); }
+
+/* ── TODOS ────────────────────────────────────────────────────── */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 2rem; }
+.stat-card { background: var(--surface); padding: 1.25rem 1.5rem; }
+.stat-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--text); display: block; line-height: 1; margin-bottom: 0.3rem; }
+.stat-label { font-size: 0.68rem; font-weight: 500; color: var(--text-soft); letter-spacing: 0.07em; text-transform: uppercase; }
+
+.todo-list { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--border); gap: 1px; }
+.todo-item {
+  background: var(--surface);
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  position: relative;
+  transition: background 0.15s;
+}
+.todo-item:hover { background: #FAFAFA; }
+.todo-item input[type="checkbox"] {
+  width: 17px; height: 17px;
+  accent-color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.todo-text { flex: 1; font-size: 0.9rem; color: var(--text); }
+.todo-item.done .todo-text { text-decoration: line-through; color: var(--text-soft); }
+.todo-cat { font-size: 0.7rem; color: var(--text-soft); margin-top: 0.15rem; }
+.todo-priority {
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.priority-high { background: #FEF2F2; color: var(--red); }
+.priority-med  { background: #FFFBEB; color: var(--amber); }
+.priority-low  { background: #F0FDF4; color: var(--green); }
+
+/* ── EMPTY / LOADING ──────────────────────────────────────────── */
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--text-soft);
+}
+.empty-icon { font-size: 2rem; display: block; margin-bottom: 0.75rem; opacity: 0.35; }
+.empty-label { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; }
+.loading-state { grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-soft); font-size: 0.85rem; letter-spacing: 0.03em; }
+
+/* ── TMDB ─────────────────────────────────────────────────────── */
+.tmdb-suggestions {
+  display: none;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  margin-top: 4px;
+  max-height: 210px;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
+}
+.tmdb-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 0.85rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.tmdb-suggestion:last-child { border-bottom: none; }
+.tmdb-suggestion:hover { background: var(--surface2); }
+.tmdb-thumb { width: 34px; height: 51px; object-fit: cover; border-radius: 4px; flex-shrink: 0; background: var(--surface2); }
+.tmdb-thumb-ph { width: 34px; height: 51px; background: var(--surface2); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+.tmdb-name { font-size: 0.84rem; font-weight: 500; color: var(--text); }
+.tmdb-year { font-size: 0.73rem; color: var(--text-soft); }
+
+/* ── MODAL ────────────────────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(18,18,20,0.55);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.22s cubic-bezier(0.34,1.56,0.64,1) both;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+@keyframes modalIn { from{opacity:0;transform:scale(0.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)} }
+.modal h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.form-group { margin-bottom: 1.1rem; }
+.form-group label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--text);
+  box-shadow: 0 0 0 3px rgba(24,24,26,0.08);
+}
+.form-group textarea { resize: vertical; min-height: 95px; line-height: 1.55; }
+.modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1.5rem; }
+.btn-cancel {
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--text-mid);
+  padding: 0.6rem 1.2rem;
+  border-radius: 99px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-cancel:hover { border-color: var(--text); color: var(--text); }
+.btn-save {
+  background: var(--text);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 99px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.02em;
+}
+.btn-save:hover { opacity: 0.8; }
+.btn-save:disabled { opacity: 0.45; cursor: not-allowed; }
+#poster-preview { width: 72px; border-radius: var(--radius-xs); margin-bottom: 0.8rem; display: none; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>✦ My Space</h1>
+  <div class="logo">
+    <span class="logo-dot"></span>
+    My Hub
+  </div>
   <span id="header-date"></span>
 </header>
 
 <nav>
-  <button class="active" onclick="switchTab('notes',this)">📝 Notes</button>
-  <button onclick="switchTab('books',this)">📚 Books</button>
-  <button onclick="switchTab('movies',this)">🎬 Movies</button>
-  <button onclick="switchTab('todos',this)">✅ Goals</button>
+  <button class="active" onclick="switchTab('notes',this)"><span class="nav-icon">✦</span> Notes</button>
+  <button onclick="switchTab('books',this)"><span class="nav-icon">◎</span> Books</button>
+  <button onclick="switchTab('movies',this)"><span class="nav-icon">▷</span> Movies</button>
+  <button onclick="switchTab('todos',this)"><span class="nav-icon">◇</span> Goals</button>
 </nav>
 
 <div class="container">
 
+  <!-- NOTES -->
   <div id="notes" class="section active">
     <div class="section-header">
-      <h2 class="section-title">Notes & Reflections</h2>
+      <h2 class="section-title">Notes &amp; <em>Reflections</em></h2>
       <div class="header-right">
-        <span class="sync-badge"><span class="sync-dot syncing" id="notes-dot"></span><span id="notes-sync-text">Loading…</span></span>
-        <button class="btn-add" onclick="openModal('note')">+ New Note</button>
+        <span class="sync-badge"><span class="sync-dot syncing" id="notes-dot"></span><span id="notes-sync-text">Loading</span></span>
+        <button class="btn-add" onclick="openModal('note')">+ New</button>
       </div>
     </div>
     <div class="filter-row">
@@ -168,15 +518,16 @@ nav button.active { color:var(--rust); border-bottom-color:var(--rust); backgrou
       <button class="filter-btn" onclick="filterNotes('reflection',this)">Reflections</button>
       <button class="filter-btn" onclick="filterNotes('idea',this)">Ideas</button>
     </div>
-    <div class="notes-grid" id="notes-container"><div class="loading-state">Loading from Notion…</div></div>
+    <div class="notes-grid" id="notes-container"><div class="loading-state">Syncing with Notion…</div></div>
   </div>
 
+  <!-- BOOKS -->
   <div id="books" class="section">
     <div class="section-header">
-      <h2 class="section-title">Book List</h2>
+      <h2 class="section-title">Book <em>List</em></h2>
       <div class="header-right">
-        <span class="sync-badge"><span class="sync-dot syncing" id="books-dot"></span><span id="books-sync-text">Loading…</span></span>
-        <button class="btn-add" onclick="openModal('book')">+ Add Book</button>
+        <span class="sync-badge"><span class="sync-dot syncing" id="books-dot"></span><span id="books-sync-text">Loading</span></span>
+        <button class="btn-add" onclick="openModal('book')">+ Add</button>
       </div>
     </div>
     <div class="filter-row">
@@ -185,15 +536,16 @@ nav button.active { color:var(--rust); border-bottom-color:var(--rust); backgrou
       <button class="filter-btn" onclick="filterBooks('reading',this)">Reading</button>
       <button class="filter-btn" onclick="filterBooks('done',this)">Done</button>
     </div>
-    <div class="list-grid" id="books-container"><div class="loading-state" style="grid-column:1/-1">Loading from Notion…</div></div>
+    <div class="list-grid" id="books-container"><div class="loading-state" style="grid-column:1/-1">Syncing with Notion…</div></div>
   </div>
 
+  <!-- MOVIES -->
   <div id="movies" class="section">
     <div class="section-header">
-      <h2 class="section-title">Movie List</h2>
+      <h2 class="section-title">Movie <em>List</em></h2>
       <div class="header-right">
-        <span class="sync-badge"><span class="sync-dot syncing" id="movies-dot"></span><span id="movies-sync-text">Loading…</span></span>
-        <button class="btn-add" onclick="openModal('movie')">+ Add Movie</button>
+        <span class="sync-badge"><span class="sync-dot syncing" id="movies-dot"></span><span id="movies-sync-text">Loading</span></span>
+        <button class="btn-add" onclick="openModal('movie')">+ Add</button>
       </div>
     </div>
     <div class="filter-row">
@@ -202,15 +554,16 @@ nav button.active { color:var(--rust); border-bottom-color:var(--rust); backgrou
       <button class="filter-btn" onclick="filterMovies('watching',this)">Watching</button>
       <button class="filter-btn" onclick="filterMovies('done',this)">Watched</button>
     </div>
-    <div class="movies-grid" id="movies-container"><div class="loading-state">Loading from Notion…</div></div>
+    <div class="movies-grid" id="movies-container"><div class="loading-state">Syncing with Notion…</div></div>
   </div>
 
+  <!-- GOALS -->
   <div id="todos" class="section">
     <div class="section-header">
-      <h2 class="section-title">Goals & To-Dos</h2>
+      <h2 class="section-title">Goals &amp; <em>To-Dos</em></h2>
       <div class="header-right">
-        <span class="sync-badge"><span class="sync-dot syncing" id="todos-dot"></span><span id="todos-sync-text">Loading…</span></span>
-        <button class="btn-add" onclick="openModal('todo')">+ Add Goal</button>
+        <span class="sync-badge"><span class="sync-dot syncing" id="todos-dot"></span><span id="todos-sync-text">Loading</span></span>
+        <button class="btn-add" onclick="openModal('todo')">+ Add</button>
       </div>
     </div>
     <div class="stats-row" id="todo-stats"></div>
@@ -219,7 +572,7 @@ nav button.active { color:var(--rust); border-bottom-color:var(--rust); backgrou
       <button class="filter-btn" onclick="filterTodos('active',this)">Active</button>
       <button class="filter-btn" onclick="filterTodos('done',this)">Done</button>
     </div>
-    <div class="todo-list" id="todos-container"><div class="loading-state">Loading from Notion…</div></div>
+    <div class="todo-list" id="todos-container"><div class="loading-state">Syncing with Notion…</div></div>
   </div>
 
 </div>
@@ -229,144 +582,141 @@ nav button.active { color:var(--rust); border-bottom-color:var(--rust); backgrou
 </div>
 
 <script>
-const DS = {
-  notes:  'collection://58a22045-7a2c-4374-84ac-fd00694cbe06',
-  books:  'collection://27b20158-0cf4-498c-8b3b-b21c6c70db81',
-  movies: 'collection://6492d784-b347-41db-872b-d3ad7cd040ca',
-  todos:  'collection://e7e33b7a-abdb-4b94-b421-b6fce7ed2df1',
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const NOTION_TOKEN   = 'ntn_q579716227251tdRVtazafdSqHEdmHAB4g9YnKVmaAw4wc';
+const NOTION_VERSION = '2022-06-28';
+const PROXY          = 'https://corsproxy.io/?url=https://api.notion.com/v1';
+const DB = {
+  notes:  '25368c226a1940ab819b26ba8c5baf03',
+  books:  '9bb52ee1fd4b4a2eab6bed7310259a26',
+  movies: 'c548c5b7103f490c9f21aeedb3c10bf8',
+  todos:  'c57e4121b0d441bab7bb975e927b82e6',
 };
-const TMDB_KEY = '6d4eadcc28b80091ca3172c8d9f824e4';
-const TMDB_IMG = 'https://image.tmdb.org/t/p/w342';
+const TMDB_KEY    = '6d4eadcc28b80091ca3172c8d9f824e4';
+const TMDB_IMG    = 'https://image.tmdb.org/t/p/w342';
 const TMDB_IMG_LG = 'https://image.tmdb.org/t/p/w500';
-const GENRE_MAP = {28:'Action',12:'Adventure',16:'Animation',35:'Comedy',80:'Crime',
+const GENRE_MAP   = {28:'Action',12:'Adventure',16:'Animation',35:'Comedy',80:'Crime',
   99:'Documentary',18:'Drama',10751:'Family',14:'Fantasy',36:'History',27:'Horror',
   10402:'Music',9648:'Mystery',10749:'Romance',878:'Sci-Fi',53:'Thriller',10752:'War',37:'Western'};
 
+// ── STATE ─────────────────────────────────────────────────────────────────────
 const state = { notes:[], books:[], movies:[], todos:[] };
 let noteFilter='all', bookFilter='all', movieFilter='all', todoFilter='all';
 let editId=null, currentType=null, selectedTmdb=null, tmdbResults=[];
 const loaded = {};
 
+// ── NOTION REST ───────────────────────────────────────────────────────────────
+const nHeaders = () => ({
+  'Authorization': `Bearer ${NOTION_TOKEN}`,
+  'Notion-Version': NOTION_VERSION,
+  'Content-Type': 'application/json',
+});
+async function nQuery(dbId) {
+  const r = await fetch(`${PROXY}/databases/${dbId}/query`, { method:'POST', headers:nHeaders(), body:JSON.stringify({page_size:100}) });
+  if(!r.ok) throw new Error(r.status);
+  return (await r.json()).results || [];
+}
+async function nCreate(dbId, props) {
+  const r = await fetch(`${PROXY}/pages`, { method:'POST', headers:nHeaders(), body:JSON.stringify({parent:{database_id:dbId},properties:props}) });
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+async function nUpdate(pageId, props) {
+  const r = await fetch(`${PROXY}/pages/${pageId}`, { method:'PATCH', headers:nHeaders(), body:JSON.stringify({properties:props}) });
+  if(!r.ok) throw new Error(r.status);
+  return r.json();
+}
+async function nArchive(pageId) {
+  const r = await fetch(`${PROXY}/pages/${pageId}`, { method:'PATCH', headers:nHeaders(), body:JSON.stringify({archived:true}) });
+  if(!r.ok) throw new Error(r.status);
+}
+
+// ── PROPERTY HELPERS ──────────────────────────────────────────────────────────
+const P = {
+  title: v => ({ title: [{ text:{content:v||''} }] }),
+  text:  v => ({ rich_text: [{ text:{content:v||''} }] }),
+  num:   v => ({ number: v||null }),
+  sel:   v => ({ select: v?{name:v}:null }),
+  check: v => ({ checkbox: !!v }),
+  url:   v => ({ url: v||null }),
+};
+function readP(p) {
+  if(!p) return '';
+  switch(p.type) {
+    case 'title':     return p.title?.map(t=>t.plain_text).join('')||'';
+    case 'rich_text': return p.rich_text?.map(t=>t.plain_text).join('')||'';
+    case 'number':    return p.number??0;
+    case 'select':    return p.select?.name||'';
+    case 'checkbox':  return p.checkbox||false;
+    case 'url':       return p.url||'';
+    default:          return '';
+  }
+}
+const parseNote  = pg => ({ id:pg.id, title:readP(pg.properties.Title), body:readP(pg.properties.Body), type:readP(pg.properties.Type)||'note', date:readP(pg.properties.Date) });
+const parseBook  = pg => ({ id:pg.id, title:readP(pg.properties.Title), author:readP(pg.properties.Author), status:readP(pg.properties.Status)||'want', rating:readP(pg.properties.Rating), notes:readP(pg.properties.Notes) });
+const parseMovie = pg => ({ id:pg.id, title:readP(pg.properties.Title), genre:readP(pg.properties.Genre), status:readP(pg.properties.Status)||'want', rating:readP(pg.properties.Rating), notes:readP(pg.properties.Notes), poster:readP(pg.properties.Poster), tmdbId:readP(pg.properties.TMDB_ID) });
+const parseTodo  = pg => ({ id:pg.id, title:readP(pg.properties.Title), category:readP(pg.properties.Category), priority:readP(pg.properties.Priority)||'med', done:readP(pg.properties.Done) });
+
+const noteProps  = f => ({ Title:P.title(f.title), Body:P.text(f.body),   Type:P.sel(f.type),   Date:P.text(f.date) });
+const bookProps  = f => ({ Title:P.title(f.title), Author:P.text(f.author), Status:P.sel(f.status), Rating:P.num(f.rating), Notes:P.text(f.notes) });
+const movieProps = f => ({ Title:P.title(f.title), Genre:P.text(f.genre),  Status:P.sel(f.status), Rating:P.num(f.rating), Notes:P.text(f.notes), Poster:P.url(f.poster), TMDB_ID:P.text(f.tmdbId) });
+const todoProps  = f => ({ Title:P.title(f.title), Category:P.text(f.category), Priority:P.sel(f.priority), Done:P.check(f.done) });
+
+// ── SYNC STATUS ───────────────────────────────────────────────────────────────
 function setSync(tab, s) {
   const dot = document.getElementById(tab+'-dot');
   const txt = document.getElementById(tab+'-sync-text');
   if(!dot||!txt) return;
   dot.className = 'sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');
-  txt.textContent = s==='syncing'?'Syncing…':s==='error'?'Sync error':'Notion ✓';
+  txt.textContent = s==='syncing'?'Syncing':s==='error'?'Error':'Synced';
 }
 
-async function callNotion(prompt, jsonMode=false) {
-  const body = {
-    model:'claude-sonnet-4-20250514',
-    max_tokens:2000,
-    mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}],
-    messages:[{role:'user',content:prompt}]
-  };
-  if (jsonMode) {
-    body.system = 'You are a data retrieval assistant. When asked to fetch data, you ALWAYS respond with ONLY a raw JSON array or object — no explanation, no markdown, no code fences, no preamble, no postamble. Your entire response must be valid JSON that can be parsed with JSON.parse().';
-  }
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(body)
-  });
-  const data = await res.json();
-  return data.content?.find(b=>b.type==='text')?.text || '';
-}
-
-async function notionLoad(tab) {
+// ── LOAD ──────────────────────────────────────────────────────────────────────
+async function loadTab(tab) {
   setSync(tab,'syncing');
   try {
-    const fieldDesc = {
-      notes: 'id=page URL, title=Title field, body=Body field, type=Type field, date=Date field',
-      books: 'id=page URL, title=Title field, author=Author field, status=Status field, rating=Rating field as number, notes=Notes field',
-      movies: 'id=page URL, title=Title field, genre=Genre field, status=Status field, rating=Rating field as number, notes=Notes field, poster=Poster field URL string, tmdbId=TMDB_ID field',
-      todos: 'id=page URL, title=Title field, category=Category field, priority=Priority field, done=Done field as true or false boolean'
-    };
-    const raw = await callNotion(
-      'IMPORTANT: Your response must be ONLY a raw JSON array. No explanation, no markdown, no code fences, no words before or after. Just the array.\n' +
-      'Fetch every row from Notion data source "' + DS[tab] + '".\n' +
-      'Return a JSON array where each object has these keys: ' + fieldDesc[tab] + '.\n' +
-      'Response format: [{"id":"...","title":"...",...}, ...] — nothing else.',
-      true  // jsonMode
-    );
-    // Strip any markdown fences or leading text, then extract JSON array
-    const match = raw.match(/\[[\s\S]*\]/);
-    if (!match) { console.warn(tab + ' no array found, raw:', raw.slice(0,200)); state[tab]=[]; setSync(tab,'ok'); renderTab(tab); return; }
-    const arr = JSON.parse(match[0]);
-    state[tab] = Array.isArray(arr) ? arr : [];
+    const pages = await nQuery(DB[tab]);
+    const parsers = {notes:parseNote, books:parseBook, movies:parseMovie, todos:parseTodo};
+    state[tab] = pages.map(parsers[tab]);
     setSync(tab,'ok');
   } catch(e) {
     console.error(tab, e);
-    state[tab] = [];
     setSync(tab,'error');
   }
   renderTab(tab);
 }
 
-async function notionAdd(tab, fields) {
-  setSync(tab,'syncing');
-  try {
-    await callNotion(
-      `Add a new page to Notion data source "${DS[tab]}" with these fields: ${JSON.stringify(fields)}. Reply "saved".`
-    );
-    setSync(tab,'ok');
-    await notionLoad(tab);
-  } catch(e) { setSync(tab,'error'); }
-}
-
-async function notionUpdate(tab, notionId, fields) {
-  setSync(tab,'syncing');
-  try {
-    await callNotion(
-      `Update the Notion page at URL "${notionId}" with: ${JSON.stringify(fields)}. Reply "updated".`
-    );
-    setSync(tab,'ok');
-    await notionLoad(tab);
-  } catch(e) { setSync(tab,'error'); }
-}
-
-async function notionDelete(tab, notionId) {
-  if(!confirm('Remove this from Notion?')) return;
-  setSync(tab,'syncing');
-  try {
-    await callNotion(`Archive the Notion page at URL "${notionId}". Reply "deleted".`);
-    setSync(tab,'ok');
-    await notionLoad(tab);
-  } catch(e) { setSync(tab,'error'); }
-}
-
+// ── TABS ──────────────────────────────────────────────────────────────────────
 function switchTab(name, btn) {
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById(name).classList.add('active');
   btn.classList.add('active');
-  if(!loaded[name]) { loaded[name]=true; notionLoad(name); }
+  if(!loaded[name]) { loaded[name]=true; loadTab(name); }
 }
 
-// TMDB
+// ── TMDB ──────────────────────────────────────────────────────────────────────
 let tmdbTimer;
 async function searchTMDB(q) {
   if(!q||q.length<2){hideSug();return;}
   clearTimeout(tmdbTimer);
-  tmdbTimer = setTimeout(async()=>{
+  tmdbTimer=setTimeout(async()=>{
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}`);
-      const data = await res.json();
-      tmdbResults = (data.results||[]).slice(0,5);
+      const r=await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&query=${encodeURIComponent(q)}`);
+      tmdbResults=((await r.json()).results||[]).slice(0,5);
       showSug();
     } catch(e){hideSug();}
-  }, 400);
+  },380);
 }
 function showSug() {
-  const box=document.getElementById('tmdb-sug');
-  if(!box||!tmdbResults.length){hideSug();return;}
-  box.style.display='block';
-  box.innerHTML=tmdbResults.map((m,i)=>`
+  const b=document.getElementById('tmdb-sug');
+  if(!b||!tmdbResults.length){hideSug();return;}
+  b.style.display='block';
+  b.innerHTML=tmdbResults.map((m,i)=>`
     <div class="tmdb-suggestion" onclick="selectTmdb(${i})">
       ${m.poster_path?`<img class="tmdb-thumb" src="${TMDB_IMG}${m.poster_path}" alt="">`:
-        `<div class="tmdb-thumb-ph">🎞</div>`}
-      <div><div class="tmdb-t">${m.title}</div><div class="tmdb-y">${(m.release_date||'').slice(0,4)}</div></div>
+        `<div class="tmdb-thumb-ph">🎬</div>`}
+      <div><div class="tmdb-name">${m.title}</div><div class="tmdb-year">${(m.release_date||'').slice(0,4)}</div></div>
     </div>`).join('');
 }
 function hideSug(){const b=document.getElementById('tmdb-sug');if(b)b.style.display='none';}
@@ -380,24 +730,24 @@ function selectTmdb(i) {
   hideSug();
 }
 
-// Modal
+// ── MODAL ─────────────────────────────────────────────────────────────────────
 function openModal(type,id) {
-  currentType=type;editId=id||null;selectedTmdb=null;tmdbResults=[];
+  currentType=type; editId=id||null; selectedTmdb=null; tmdbResults=[];
   document.getElementById('modal-box').innerHTML=buildForm(type,id);
   document.getElementById('modal-overlay').classList.add('open');
 }
-function closeModal(){
+function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
-  editId=null;currentType=null;selectedTmdb=null;
+  editId=null; currentType=null; selectedTmdb=null;
 }
 function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
-function esc(s){return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
-function setBusy(b){const btn=document.getElementById('save-btn');if(btn){btn.disabled=b;btn.textContent=b?'Saving…':'Save to Notion';}}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function setBusy(b){const btn=document.getElementById('save-btn');if(btn){btn.disabled=b;btn.textContent=b?'Saving…':'Save';}}
 
 function buildForm(type,id) {
-  if(type==='note'){
+  if(type==='note') {
     const it=id?state.notes.find(n=>n.id===id)||{}:{};
-    return `<h2>${id?'Edit':'New'} Note</h2>
+    return `<h2>${id?'Edit Note':'New Note'}</h2>
       <div class="form-group"><label>Title</label><input id="f-title" value="${esc(it.title)}" placeholder="Give it a title…"></div>
       <div class="form-group"><label>Content</label><textarea id="f-body" placeholder="Write your thoughts…">${esc(it.body)}</textarea></div>
       <div class="form-group"><label>Type</label><select id="f-type">
@@ -406,11 +756,11 @@ function buildForm(type,id) {
         <option value="idea" ${it.type==='idea'?'selected':''}>Idea</option>
       </select></div>
       <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="save-btn" onclick="saveNote()">Save to Notion</button></div>`;
+      <button class="btn-save" id="save-btn" onclick="saveNote()">Save</button></div>`;
   }
-  if(type==='book'){
+  if(type==='book') {
     const it=id?state.books.find(n=>n.id===id)||{}:{};
-    return `<h2>${id?'Edit':'Add'} Book</h2>
+    return `<h2>${id?'Edit Book':'Add Book'}</h2>
       <div class="form-group"><label>Title</label><input id="f-title" value="${esc(it.title)}" placeholder="Book title…"></div>
       <div class="form-group"><label>Author</label><input id="f-author" value="${esc(it.author)}" placeholder="Author name…"></div>
       <div class="form-group"><label>Status</label><select id="f-status">
@@ -421,16 +771,16 @@ function buildForm(type,id) {
       <div class="form-group"><label>Rating (1–5)</label><input id="f-rating" type="number" min="1" max="5" value="${it.rating||''}"></div>
       <div class="form-group"><label>Notes</label><textarea id="f-notes" placeholder="Thoughts…">${esc(it.notes)}</textarea></div>
       <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="save-btn" onclick="saveBook()">Save to Notion</button></div>`;
+      <button class="btn-save" id="save-btn" onclick="saveBook()">Save</button></div>`;
   }
-  if(type==='movie'){
+  if(type==='movie') {
     const it=id?state.movies.find(n=>n.id===id)||{}:{};
-    return `<h2>${id?'Edit':'Add'} Movie</h2>
-      <div class="form-group"><label>Search Movie Title</label>
+    return `<h2>${id?'Edit Movie':'Add Movie'}</h2>
+      <div class="form-group"><label>Search Title</label>
         <input id="f-title" value="${esc(it.title)}" placeholder="Start typing to search…" oninput="searchTMDB(this.value)" autocomplete="off">
         <div id="tmdb-sug" class="tmdb-suggestions"></div>
       </div>
-      <img id="poster-preview" src="${esc(it.poster||'')}" style="width:80px;border-radius:6px;margin-bottom:0.8rem;${it.poster?'display:block':'display:none'}">
+      <img id="poster-preview" src="${esc(it.poster||'')}" style="${it.poster?'display:block':'display:none'}">
       <div class="form-group"><label>Genre / Director</label><input id="f-genre" value="${esc(it.genre)}" placeholder="e.g. Drama, Sci-Fi…"></div>
       <div class="form-group"><label>Status</label><select id="f-status">
         <option value="want" ${it.status==='want'?'selected':''}>Watchlist</option>
@@ -440,145 +790,143 @@ function buildForm(type,id) {
       <div class="form-group"><label>Rating (1–5)</label><input id="f-rating" type="number" min="1" max="5" value="${it.rating||''}"></div>
       <div class="form-group"><label>Notes</label><textarea id="f-notes" placeholder="Quick thoughts…">${esc(it.notes)}</textarea></div>
       <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="save-btn" onclick="saveMovie()">Save to Notion</button></div>`;
+      <button class="btn-save" id="save-btn" onclick="saveMovie()">Save</button></div>`;
   }
-  if(type==='todo'){
+  if(type==='todo') {
     const it=id?state.todos.find(n=>n.id===id)||{}:{};
-    return `<h2>${id?'Edit':'New'} Goal</h2>
+    return `<h2>${id?'Edit Goal':'New Goal'}</h2>
       <div class="form-group"><label>Goal / Task</label><input id="f-title" value="${esc(it.title)}" placeholder="What do you want to accomplish?"></div>
-      <div class="form-group"><label>Category</label><input id="f-cat" value="${esc(it.category)}" placeholder="e.g. Work, Health, Personal…"></div>
+      <div class="form-group"><label>Category</label><input id="f-cat" value="${esc(it.category)}" placeholder="e.g. Work, Health…"></div>
       <div class="form-group"><label>Priority</label><select id="f-priority">
         <option value="high" ${it.priority==='high'?'selected':''}>High</option>
         <option value="med" ${it.priority==='med'?'selected':''}>Medium</option>
         <option value="low" ${it.priority==='low'?'selected':''}>Low</option>
       </select></div>
       <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="save-btn" onclick="saveTodo()">Save to Notion</button></div>`;
+      <button class="btn-save" id="save-btn" onclick="saveTodo()">Save</button></div>`;
   }
 }
 
-async function saveNote(){
-  const title=document.getElementById('f-title').value.trim();
-  const body=document.getElementById('f-body').value.trim();
-  const type=document.getElementById('f-type').value;
-  if(!title)return; setBusy(true);
-  const date=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  const f={Title:title,Body:body,Type:type,Date:date};
-  if(editId) await notionUpdate('notes',editId,f); else await notionAdd('notes',f);
-  closeModal();
+// ── SAVE ──────────────────────────────────────────────────────────────────────
+async function saveNote() {
+  const f={title:document.getElementById('f-title').value.trim(), body:document.getElementById('f-body').value.trim(),
+    type:document.getElementById('f-type').value, date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})};
+  if(!f.title)return; setBusy(true);
+  try { if(editId)await nUpdate(editId,noteProps(f)); else await nCreate(DB.notes,noteProps(f)); closeModal(); await loadTab('notes'); }
+  catch(e){setBusy(false);alert('Save failed: '+e.message);}
 }
-async function saveBook(){
-  const title=document.getElementById('f-title').value.trim();
-  const author=document.getElementById('f-author').value.trim();
-  const status=document.getElementById('f-status').value;
-  const rating=parseInt(document.getElementById('f-rating').value)||0;
-  const notes=document.getElementById('f-notes').value.trim();
-  if(!title)return; setBusy(true);
-  const f={Title:title,Author:author,Status:status,Rating:rating,Notes:notes};
-  if(editId) await notionUpdate('books',editId,f); else await notionAdd('books',f);
-  closeModal();
+async function saveBook() {
+  const f={title:document.getElementById('f-title').value.trim(), author:document.getElementById('f-author').value.trim(),
+    status:document.getElementById('f-status').value, rating:parseInt(document.getElementById('f-rating').value)||0,
+    notes:document.getElementById('f-notes').value.trim()};
+  if(!f.title)return; setBusy(true);
+  try { if(editId)await nUpdate(editId,bookProps(f)); else await nCreate(DB.books,bookProps(f)); closeModal(); await loadTab('books'); }
+  catch(e){setBusy(false);alert('Save failed: '+e.message);}
 }
-async function saveMovie(){
-  const title=document.getElementById('f-title').value.trim();
-  const genre=document.getElementById('f-genre').value.trim();
-  const status=document.getElementById('f-status').value;
-  const rating=parseInt(document.getElementById('f-rating').value)||0;
-  const notes=document.getElementById('f-notes').value.trim();
-  if(!title)return; setBusy(true);
-  let poster='',tmdbId='';
-  if(selectedTmdb&&selectedTmdb.poster_path){poster=TMDB_IMG_LG+selectedTmdb.poster_path;tmdbId=String(selectedTmdb.id);}
-  else if(editId){const ex=state.movies.find(m=>m.id===editId);if(ex){poster=ex.poster||'';tmdbId=ex.tmdbId||'';}}
-  const f={Title:title,Genre:genre,Status:status,Rating:rating,Notes:notes,Poster:poster,TMDB_ID:tmdbId};
-  if(editId) await notionUpdate('movies',editId,f); else await notionAdd('movies',f);
-  closeModal();
+async function saveMovie() {
+  const f={title:document.getElementById('f-title').value.trim(), genre:document.getElementById('f-genre').value.trim(),
+    status:document.getElementById('f-status').value, rating:parseInt(document.getElementById('f-rating').value)||0,
+    notes:document.getElementById('f-notes').value.trim(), poster:'', tmdbId:''};
+  if(!f.title)return;
+  if(selectedTmdb?.poster_path){f.poster=TMDB_IMG_LG+selectedTmdb.poster_path;f.tmdbId=String(selectedTmdb.id);}
+  else if(editId){const ex=state.movies.find(m=>m.id===editId);if(ex){f.poster=ex.poster||'';f.tmdbId=ex.tmdbId||'';}}
+  setBusy(true);
+  try { if(editId)await nUpdate(editId,movieProps(f)); else await nCreate(DB.movies,movieProps(f)); closeModal(); await loadTab('movies'); }
+  catch(e){setBusy(false);alert('Save failed: '+e.message);}
 }
-async function saveTodo(){
-  const title=document.getElementById('f-title').value.trim();
-  const category=document.getElementById('f-cat').value.trim();
-  const priority=document.getElementById('f-priority').value;
-  if(!title)return; setBusy(true);
-  const f={Title:title,Category:category,Priority:priority,Done:false};
-  if(editId) await notionUpdate('todos',editId,f); else await notionAdd('todos',f);
-  closeModal();
+async function saveTodo() {
+  const f={title:document.getElementById('f-title').value.trim(), category:document.getElementById('f-cat').value.trim(),
+    priority:document.getElementById('f-priority').value, done:false};
+  if(!f.title)return; setBusy(true);
+  try { if(editId)await nUpdate(editId,todoProps(f)); else await nCreate(DB.todos,todoProps(f)); closeModal(); await loadTab('todos'); }
+  catch(e){setBusy(false);alert('Save failed: '+e.message);}
 }
-async function toggleTodo(id){
-  const it=state.todos.find(t=>t.id===id);
-  if(!it)return;
-  await notionUpdate('todos',id,{Title:it.title,Category:it.category||'',Priority:it.priority,Done:!it.done});
+async function toggleTodo(id) {
+  const it=state.todos.find(t=>t.id===id); if(!it)return;
+  it.done=!it.done; renderTodos();
+  try{await nUpdate(id,{Done:P.check(it.done)});setSync('todos','ok');}
+  catch(e){it.done=!it.done;renderTodos();setSync('todos','error');}
+}
+async function deleteEntry(tab,id) {
+  if(!confirm('Remove from Notion?'))return;
+  setSync(tab,'syncing');
+  try{await nArchive(id);await loadTab(tab);}
+  catch(e){setSync(tab,'error');alert('Delete failed: '+e.message);}
 }
 
-// Filters
+// ── FILTERS ───────────────────────────────────────────────────────────────────
 function filterNotes(f,btn){noteFilter=f;document.querySelectorAll('#notes .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderNotes();}
 function filterBooks(f,btn){bookFilter=f;document.querySelectorAll('#books .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderBooks();}
 function filterMovies(f,btn){movieFilter=f;document.querySelectorAll('#movies .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMovies();}
 function filterTodos(f,btn){todoFilter=f;document.querySelectorAll('#todos .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderTodos();}
 
+// ── RENDER ────────────────────────────────────────────────────────────────────
 function starsHTML(n){if(!n)return'';return'<div class="stars">'+'★'.repeat(n)+'☆'.repeat(5-n)+'</div>';}
-function renderTab(t){if(t==='notes')renderNotes();else if(t==='books')renderBooks();else if(t==='movies')renderMovies();else if(t==='todos')renderTodos();}
+function renderTab(t){({notes:renderNotes,books:renderBooks,movies:renderMovies,todos:renderTodos})[t]?.();}
 
-function renderNotes(){
+function renderNotes() {
   const c=document.getElementById('notes-container');
   const items=state.notes.filter(n=>noteFilter==='all'||n.type===noteFilter);
-  if(!items.length){c.innerHTML='<div class="empty-state"><span>📝</span>No notes yet — add your first one!</div>';return;}
+  if(!items.length){c.innerHTML='<div class="empty-state"><span class="empty-icon">✦</span><span class="empty-label">No notes yet</span></div>';return;}
   c.innerHTML=items.map(n=>`
     <div class="note-card">
       <div class="card-actions">
         <button onclick="openModal('note','${n.id}')">✏</button>
-        <button onclick="notionDelete('notes','${n.id}')">✕</button>
+        <button onclick="deleteEntry('notes','${n.id}')">✕</button>
       </div>
       <div class="note-date">${n.date||''}</div>
-      <div class="note-title">${n.title||''}</div>
-      <div class="note-body">${n.body||''}</div>
-      <span class="tag tag-${n.type||'note'}">${n.type||'note'}</span>
+      <div class="note-title">${esc(n.title)}</div>
+      <div class="note-body">${esc(n.body)}</div>
+      <span class="note-tag tag-${n.type||'note'}">${n.type||'note'}</span>
     </div>`).join('');
 }
 
-function renderBooks(){
+function renderBooks() {
   const c=document.getElementById('books-container');
   const items=state.books.filter(b=>bookFilter==='all'||b.status===bookFilter);
-  if(!items.length){c.innerHTML='<div class="empty-state" style="grid-column:1/-1"><span>📚</span>No books yet — add your first one!</div>';return;}
+  if(!items.length){c.innerHTML='<div class="empty-state"><span class="empty-icon">◎</span><span class="empty-label">No books yet</span></div>';return;}
   const lbl={want:'Want to Read',reading:'Reading',done:'Done'};
   c.innerHTML=items.map(b=>`
     <div class="list-item">
       <div class="card-actions">
         <button onclick="openModal('book','${b.id}')">✏</button>
-        <button onclick="notionDelete('books','${b.id}')">✕</button>
+        <button onclick="deleteEntry('books','${b.id}')">✕</button>
       </div>
-      <span class="item-emoji">📖</span>
-      <div class="item-title">${b.title||''}</div>
-      <div class="item-sub">${b.author||''}</div>
+      <span class="item-icon">📖</span>
+      <div class="item-title">${esc(b.title)}</div>
+      <div class="item-sub">${esc(b.author)}</div>
       ${starsHTML(b.rating)}
-      <div><span class="status-badge status-${b.status}">${lbl[b.status]||b.status}</span></div>
-      ${b.notes?`<div class="item-sub" style="margin-top:0.4rem;font-style:italic;">${b.notes}</div>`:''}
+      <span class="status-pill status-${b.status}">${lbl[b.status]||b.status}</span>
+      ${b.notes?`<div class="item-sub" style="margin-top:0.5rem;font-style:italic;">${esc(b.notes)}</div>`:''}
     </div>`).join('');
 }
 
-function renderMovies(){
+function renderMovies() {
   const c=document.getElementById('movies-container');
   const items=state.movies.filter(m=>movieFilter==='all'||m.status===movieFilter);
-  if(!items.length){c.innerHTML='<div class="empty-state" style="grid-column:1/-1"><span>🎬</span>No movies yet — add your first one!</div>';return;}
+  if(!items.length){c.innerHTML='<div class="empty-state"><span class="empty-icon">▷</span><span class="empty-label">No movies yet</span></div>';return;}
   const lbl={want:'Watchlist',watching:'Watching',done:'Watched'};
   c.innerHTML=items.map(m=>`
     <div class="movie-card">
       <div class="card-actions">
         <button onclick="openModal('movie','${m.id}')">✏</button>
-        <button onclick="notionDelete('movies','${m.id}')">✕</button>
+        <button onclick="deleteEntry('movies','${m.id}')">✕</button>
       </div>
-      ${m.poster?`<img class="movie-poster" src="${m.poster}" alt="${esc(m.title||'')}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'' }
-      <div class="movie-poster-placeholder" ${m.poster?'style="display:none"':''}>🎞</div>
+      ${m.poster?`<img class="movie-poster" src="${m.poster}" alt="${esc(m.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'' }
+      <div class="movie-poster-placeholder" ${m.poster?'style="display:none"':''}>🎬</div>
       <div class="movie-info">
-        <div class="movie-title">${m.title||''}</div>
-        <div class="movie-genre">${m.genre||''}</div>
+        <div class="movie-title">${esc(m.title)}</div>
+        <div class="movie-genre">${esc(m.genre)}</div>
         ${starsHTML(m.rating)}
-        <span class="status-badge status-${m.status}">${lbl[m.status]||m.status}</span>
+        <span class="status-pill status-${m.status}">${lbl[m.status]||m.status}</span>
       </div>
     </div>`).join('');
 }
 
-function renderTodos(){
+function renderTodos() {
   const c=document.getElementById('todos-container');
   const stats=document.getElementById('todo-stats');
-  const total=state.todos.length,done=state.todos.filter(t=>t.done).length;
+  const total=state.todos.length, done=state.todos.filter(t=>t.done).length;
   const high=state.todos.filter(t=>t.priority==='high'&&!t.done).length;
   stats.innerHTML=`
     <div class="stat-card"><span class="stat-num">${total}</span><span class="stat-label">Total</span></div>
@@ -586,26 +934,27 @@ function renderTodos(){
     <div class="stat-card"><span class="stat-num">${total-done}</span><span class="stat-label">Active</span></div>
     <div class="stat-card"><span class="stat-num">${high}</span><span class="stat-label">High Priority</span></div>`;
   const items=state.todos.filter(t=>todoFilter==='active'?!t.done:todoFilter==='done'?t.done:true);
-  if(!items.length){c.innerHTML='<div class="empty-state"><span>✅</span>Nothing here — add a goal!</div>';return;}
+  if(!items.length){c.innerHTML='<div class="empty-state"><span class="empty-icon">◇</span><span class="empty-label">Nothing here yet</span></div>';return;}
   c.innerHTML=items.map(t=>`
     <div class="todo-item ${t.done?'done':''}">
       <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo('${t.id}')">
       <div style="flex:1">
-        <div class="todo-text">${t.title||''}</div>
-        ${t.category?`<div class="todo-category">${t.category}</div>`:''}
+        <div class="todo-text">${esc(t.title)}</div>
+        ${t.category?`<div class="todo-cat">${esc(t.category)}</div>`:''}
       </div>
       <span class="todo-priority priority-${t.priority}">${t.priority}</span>
       <div class="card-actions">
         <button onclick="openModal('todo','${t.id}')">✏</button>
-        <button onclick="notionDelete('todos','${t.id}')">✕</button>
+        <button onclick="deleteEntry('todos','${t.id}')">✕</button>
       </div>
     </div>`).join('');
 }
 
+// ── INIT ──────────────────────────────────────────────────────────────────────
 document.getElementById('header-date').textContent =
-  new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
 loaded['notes']=true;
-notionLoad('notes');
+loadTab('notes');
 </script>
 </body>
 </html>
